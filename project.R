@@ -84,17 +84,14 @@ rm(list=setdiff(ls(),c("woodland_area_by_country","year_ending_March_31st", "plo
 
 
 
+comment on interpretations at begining, middle, end to aid circumnavigation of project
 
+settings > pages
 
+https: hhtps://jacobmoorcroft.github.io/
 
-
-
-
-
-
-
-
-
+update is not instand on git hub
+make the rmarkdown called index.rmd so that first file viewable is index.htm
 
 ## NONSENSE NONSEN NONSNEON NONSENSEEEEEEEEEEEEEEEEEE NONSEN NONSESNE NONSENSE ########################################
 
