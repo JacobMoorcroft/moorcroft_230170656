@@ -1,2 +1,3 @@
 # moorcroft_230170656
 Data Science Management &amp; Visualisation Project
+This project is focussed on visualising the increase in woodland within the **United Kingdom**, as categorised by each *country*, from *1998* to *2023*. The raw data for this project was retrieved from ['Forest Research'](https://www.forestresearch.gov.uk/tools-and-resources/statistics/data-downloads/), a branch of the Forestry Commission (FC) which collects data by totaling extractions made by multiple forest services operating in the United Kingdom. It principally gathers information on tree-related statistics, including but not limited to gathering longitudinal provisional data on the estimated amount of woodland area in the UK.
