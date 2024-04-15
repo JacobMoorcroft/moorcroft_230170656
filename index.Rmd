@@ -75,9 +75,9 @@ processed_extracted_data
 
 
 
-From all of the data, only the *Year*, and the *woodland Area* (in thousand hectares) of each country needed to be extracted. All of the data on the amount of woodland area also needed to be used to calculate the percentage increase from 1998 to 2023 for each country.
+From all of the data, only the *Year*, and the *Woodland Area* (in thousand hectares) of each country needed to be extracted. All of the data on the amount of woodland area also needed to be used to calculate the percentage increase from 1998 to 2023 for each country.
 
-```{r, echo=TRUE}
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
 # Extracts the Years and Amount of Woodland Area for each country
 
 year_ending_March_31st<-as.numeric(processed_extracted_data$`Year ending 31 March`) # The Year
@@ -166,6 +166,18 @@ FinalPlot<-woodland_growth_over_time %>%
         panel.background=element_rect(fill="white"))
 
 FinalPlot
+```
+
+### Saving the Plot
+
+```{r, message=FALSE, echo=TRUE}
 filename<-paste("The Growth of Woodland Area in the UK from 1998 to 2023.png",sep="")
 ggsave(file.path(fig_path,filename),plot=FinalPlot,width=7,height=6.37)
 ```
+
+### Conclusion
+
+From this plot, there is visual clarity that the growth of woodland area within countries should be interpreted both in the context of actual hectares of woodland area developed, in tandem with the proportional increase relative to the original amount of woodland within the country - this is because taking either of these measures outside of the context of the other could be misleading. For example, interpreting that Wales has made superior efforts to increase Woodland area compared to Northern Ireland, in the context that Wales visually has a higher *amount* of woodland, neglects how Northern Ireland has theoretically made grander efforts than Wales to expand on the notion that they have a higher *percentage increase* in woodland. Regardless of these differences, the data can simply be interpreted on the promising notion that all countries within the United Kingdom have experienced an expansion of woodland between 1998 and 2023.
+
+
+
