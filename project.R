@@ -1,7 +1,7 @@
 ## This code has been designed to extract data on the provisional woodland area within each country of the United Kingdom from 1998-2023, calculate the
 ## percentage increase over time, and visualise the overall growth of woodland area in the UK from 1998-2023 both in total amount and proportional increase
 
-# Should the packages need to be installed ...
+# Should the packages need to be installed:
 
 #libraries<-c("tidyverse","cowplot", "ggplot2", "readODS", "here", "rlang", "dplyr")
 #install.packages(libraries, repos="http://cran.rstudio.com")
