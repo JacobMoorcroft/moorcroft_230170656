@@ -108,18 +108,6 @@ for(country in country_names){
 percentage_results[1:4,2]<-round(percentage_results[1:4,2],2) # rounds the data to 2 decimal places
 ```
 
-
-
-
-Below is a tabulation of the raw, thousand hectares of woodland area as depicted per country, per year from 1998 to 2023 - in tandem, there are the results of the percentage increase calculations. This gives a good idea of how differently data can be represented when interpreted proportionally as well as from just the raw numbers.
-
-```{r, echo=FALSE}
-view(woodland_area_by_country)
-percentage_results
-```
-
-
-
 ### Data Visualisation
 
 Finally, a visualisation of the growth of woodland area within the countries of the United Kingdom from 1998 to 2023 can be created, which displays this development both in terms of numeric and proportional increase.
