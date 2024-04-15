@@ -1,72 +1,171 @@
 ---
-title: "Increase in the amount of Woodland within Countries of the United Kingdom,
-  from 1998-2023"
-author: "Jacob Moorcroft"
-date: "2024-02-29"
+title: "PSY6422 Data Management and Visualisation"
 output:
   html_document:
     df_print: paged
+    fig_width: 7
+    fig_height: 6.37
+    fig_caption: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This project is focussed on visualising the increase in woodland within the **United Kingdom**, as categorised by each *country*, from *1998* to *2023*. The data was retrieved from ['Forest Research'](https://www.forestresearch.gov.uk/tools-and-resources/statistics/data-downloads/), a branch of the Forestry Commission (FC) which collects data by totaling extractions made by multiple forest services operating in the United Kingdom. It principally gathers information on tree-related statistics, including but not limited to gathering longitudinal provisional data on the estimated amount of woodland area in the UK.
 
-The “Woodland area, UK, 1998 to 2023” ODS file contained 5 tables, consisting of data on private and public woodland areas, of which coniferous or deciduous, within England, Wales, Scotland and Northern Ireland. The final table amalgamated this data into national totals across the United Kingdom, as shown in the raw data below.
+## The Growth of Woodland Area within the United Kingdom (1998-2023)
+
+### Data Source
+
+This project is focussed on visualising the increase in woodland within the **United Kingdom**, as categorised by each *country*, from *1998* to *2023*. The raw data for this project was retrieved from ['Forest Research'](https://www.forestresearch.gov.uk/tools-and-resources/statistics/data-downloads/), a branch of the Forestry Commission (FC) which collects data by totaling extractions made by multiple forest services operating in the United Kingdom. It principally gathers information on tree-related statistics, including but not limited to gathering longitudinal provisional data on the estimated amount of woodland area in the UK.
+
+The main rationale for exploring this data was to elucidate the increase in hectares of woodland area within each country between 1998-2023, and also go beyond the original data-set to calculate and contextualise the *percentage* increase of woodland within each country across this time-frame.
+
+
+
+
+### Data Preparation
+
+The “Woodland area, UK, 1998 to 2023” ODS file contained 5 sheets of actual data, though was also supplemented with cover, content and notes pages. In tandem, the pages containing data were annotated with further notes clarifying the origin of the data and different commissions involved in gathering it. 
+
 	
-```{r, message=FALSE, warning=FALSE, echo=FALSE}
-library(readODS)
-RawData<-"raw_data/area-timeseries-15jun23.ods"
-UKTotal<-read_ods(RawData,sheet=8)
-head(UKTotal)
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+# Loading of necessary libraries
 
-```
-
-*Figure 1.* The raw data describing woodland area in the United Kingdom
-
-
-As is visible within the raw data, it has been supplemented with a large amount of flavour text and descriptions. In tandem, it has the addition of dividing woodland area by public and privately owned land, as well as whether the area is primarily constituted of deciduous (i.e. oaks, cedars) or coniferous trees (i.e pines). For the purpose of this visualisation, the data needs to be cleaned to only include the *Year*, ranging from 1998-2023, and the *Total Woodland Area* per Year needs to be extracted from each sheet, per country and nationally.
-
-The results of this screen and clean are below ...
-
-
-```{r, message=FALSE, echo=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(readODS)
+library(here)
+library(rlang)
+library(dplyr)
+library(cowplot)
+library(gridExtra)
 
-# extracts all of the raw data from the ODS and collates it into one data.frame
-EnglandData<-read_ods("raw_data/area-timeseries-15jun23.ods",sheet=4) 
-WalesData<-read_ods("raw_data/area-timeseries-15jun23.ods",sheet=5) 
-ScotlandData<-read_ods("raw_data/area-timeseries-15jun23.ods",sheet=6) 
-NIData<-read_ods("raw_data/area-timeseries-15jun23.ods",sheet=7) 
-UKData<-read_ods("raw_data/area-timeseries-15jun23.ods",sheet=8)
-TotalExtractedData<-data.frame(EnglandData,WalesData,ScotlandData,NIData,UKData)
-rm(list=setdiff(ls(),"TotalExtractedData"))
+# Extraction of raw data
 
-TotalExtractedData<-TotalExtractedData[-c(1:3),] 
-names(TotalExtractedData)<-as.matrix(TotalExtractedData[1,])
-TotalExtractedData<-TotalExtractedData[-1,]
+sheets<-c("England","Wales","Scotland","Northern Ireland")
+countries_list<-list()
+for (i in seq_along(sheets)){
+  countries<-sheets[i]
+  pathway<-paste0(here("raw_data", "area-timeseries-15jun23.ods"))
+  countries_list[[countries]]<-read_ods(pathway, sheet = i+3)
+} # extracts all of the raw data and collates it into a data-frame
 
-# extracts the total woodland area per country/the UK and the range of years, transforming into numerical variables
-Year<-as.numeric(TotalExtractedData$`Year ending 31 March`)
-Amount_of_Woodland<-select(TotalExtractedData, ends_with("total (thousand ha)"))
+raw_extracted_data<-data.frame(countries_list)
+rm(list=setdiff(ls(), "raw_extracted_data")) # removes unnecessary variables to clean environment
 
-England<-as.numeric(Amount_of_Woodland$`England total (thousand ha)`)
-Wales<-as.numeric(Amount_of_Woodland$`Wales total (thousand ha)`)
-Scotland<-as.numeric(Amount_of_Woodland$`Scotland total (thousand ha)`)
-NI<-as.numeric(Amount_of_Woodland$`Northern Ireland total (thousand ha)`)
-UK_Total<-as.numeric(Amount_of_Woodland$`UK total (thousand ha)`)
-
-# moves all of the relevant data into a data.frame
-Woodland_By_Year<-data.frame(Year,England,Wales,Scotland,NI,UK_Total)
-rm(list=setdiff(ls(),"Woodland_By_Year"))
+raw_extracted_data
 ```
+
+
+
+Before continuing, the unnecessary pages and lines of text needed to be removed in order to make the data more amenable to analysis.
 
 ```{r, echo=FALSE}
-head(Woodland_By_Year)
+# Processing and cleaning of data
+
+processed_extracted_data<-raw_extracted_data[-c(1:3),] # removes unnecessary text
+names(processed_extracted_data)<-as.matrix(processed_extracted_data[1,]) # labels each column by their original titles
+processed_extracted_data<-processed_extracted_data[-1,] # removes text names from the data
+
+processed_extracted_data
 ```
 
-*Figure 2.* The Amount of Woodland Area (in thousand hectacres) in the United Kingdom, total and per country, from 1998-2023
+
+
+
+
+From all of the data, only the *Year*, and the *woodland Area* (in thousand hectares) of each country needed to be extracted. All of the data on the amount of woodland area also needed to be used to calculate the percentage increase from 1998 to 2023 for each country.
+
+```{r, echo=TRUE}
+# Extracts the Years and Amount of Woodland Area for each country
+
+year_ending_March_31st<-as.numeric(processed_extracted_data$`Year ending 31 March`) # The Year
+woodland_area<-select(processed_extracted_data, ends_with(" total (thousand ha)")) # Amount of Woodland Area
+country_names<-c("England", "Wales", "Scotland", "Northern Ireland") # Country Names
+
+for (i in country_names){
+  assign(i, as.numeric(woodland_area[[paste0(i, " total (thousand ha)")]])) 
+} # converts data to numeric for visualisation
+
+# Tabulates change in woodland area per country from 1998 to 2023
+
+woodland_area_by_country<-data.frame(England,Wales,Scotland,`Northern Ireland`)
+woodland_area_by_country<-woodland_area_by_country%>%
+  rename(Northern_Ireland=`Northern.Ireland`)
+table(is.na(woodland_area_by_country)) # no missing data!
+country_names<-c("England", "Wales", "Scotland", "Northern_Ireland")
+
+# Calculates percentage increase in woodland area per country from 1998 to 2023
+
+percentage_results<-data.frame(country=character(),percentage_increase=numeric(),stringsAsFactors=FALSE)
+for(country in country_names){
+  min_v<-min(woodland_area_by_country[[country]])
+  max_v<-max(woodland_area_by_country[[country]])
+  percentage_increase<-(((max_v-min_v)/min_v)*100)
+  percentage_results<-rbind(percentage_results, data.frame(country=country,percentage_increase=percentage_increase))
+} # calculates the percentage increase from 1998 to 2023 for each country
+percentage_results[1:4,2]<-round(percentage_results[1:4,2],2) # rounds the data to 2 decimal places
+```
+
+
+
+
+Below is a tabulation of the raw, thousand hectares of woodland area as depicted per country, per year from 1998 to 2023 - in tandem, there are the results of the percentage increase calculations. This gives a good idea of how differently data can be represented when interpreted proportionally as well as from just the raw numbers.
+
+```{r, echo=FALSE}
+view(woodland_area_by_country)
+percentage_results
+```
+
+
+
+### Data Visualisation
+
+Finally, a visualisation of the growth of woodland area within the countries of the United Kingdom from 1998 to 2023 can be created, which displays this development both in terms of numeric and proportional increase.
+
+```{r, message=FALSE, echo=TRUE}
+# Removal of all unnecessary variables, and creation of data-frame amenable to the upcoming visualisation
+
+rm(list=setdiff(ls(),c("woodland_area_by_country","country_names","year_ending_March_31st", "plot","percentage_results")))
+woodland_growth_over_time<-data.frame(
+  country=c(rep("England",26),rep("Wales",26),rep("Scotland",26),rep("Northern Ireland",26)),
+  woodland=c(woodland_area_by_country$England,woodland_area_by_country$Wales,
+             woodland_area_by_country$Scotland,woodland_area_by_country$Northern_Ireland),
+  year=c(year_ending_March_31st)
+)
+
+# Mapping & figure path
+
+mapping<-aes(x=year,y=woodland,colour=country) # creates the mapping for the visualisation
+fig_path<-here("figs") # creates the necessary path for saving the figure
+
+# Visualisation of the growth of woodland area within the United Kingdom, from 1998 to 2023
+
+FinalPlot<-woodland_growth_over_time %>%
+  ggplot(mapping=mapping)+
+  geom_smooth(method="gam")+
+  geom_point()+
+  labs(x="Year commencing from March 31st",
+       y="Woodland area (in thousand hectares)",
+       colour="Country",
+       title="The Growth of Woodland Area within the United Kingdom",
+       subtitle="As annotated with percentage increase from 1998-2023",
+       caption="Retrieved from: Forest Research, 2023")+
+  annotate("label",x=2010,y=1210,label=paste(percentage_results[1,2],"%"),colour="#EE0000",size=3,fontface="bold")+
+  annotate("label",x=2010,y=375,label=paste(percentage_results[2,2],"%"),colour="#00CD00",size=3,fontface="bold")+
+  annotate("label",x=2010,y=1450,label=paste(percentage_results[3,2],"%"),colour="#0000CD",size=3,fontface="bold")+
+  annotate("label",x=2010,y=175,label=paste(percentage_results[4,2],"%"),colour="#FFA500",size=3,fontface="bold")+
+  scale_colour_manual(values=c(England="#EE0000",Wales="#00CD00",
+                               Scotland="#0000CD",`Northern Ireland`="#FFA500"))+
+  scale_x_continuous(breaks=seq(1998,2023,5))+
+  scale_y_continuous(breaks=seq(0,1500,150))+
+  theme(panel.border=element_rect(colour="#8B7355",fill=NA,linewidth=2),
+        panel.grid.minor=element_line(colour="#CAFF70"),
+        panel.grid.major=element_line(colour="#CAFF70"),
+        panel.background=element_rect(fill="white"))
+
+FinalPlot
+filename<-paste("The Growth of Woodland Area in the UK from 1998 to 2023.png",sep="")
+ggsave(file.path(fig_path,filename),plot=FinalPlot,width=7,height=6.37)
+```
