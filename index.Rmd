@@ -61,7 +61,7 @@ raw_extracted_data
 
 Before continuing, the unnecessary pages and lines of text needed to be removed in order to make the data more amenable to analysis.
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 # Processing and cleaning of data
 
 processed_extracted_data<-raw_extracted_data[-c(1:3),] # removes unnecessary text

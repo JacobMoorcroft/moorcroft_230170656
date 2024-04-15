@@ -112,32 +112,3 @@ FinalPlot<-woodland_growth_over_time %>%
 FinalPlot
 filename<-paste("The Growth of Woodland Area in the UK from 1998 to 2023.png",sep="")
 ggsave(file.path(fig_path,filename),plot=FinalPlot,width=7,height=6.37)
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////
-
-#look into
-  
-  grid.arrange
-?ggdraw(FinalPlot)+ 
-  draw_image(logo_file)
-https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html
-
-
-comment on interpretations at begining, middle, end to aid circumnavigation of project
-
-settings > pages
-
-https: hhtps://jacobmoorcroft.github.io/
-
-update is not instand on git hub
-make the rmarkdown called index.rmd so that first file viewable is index.htm
