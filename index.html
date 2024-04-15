@@ -1640,11 +1640,16 @@ in the United Kingdom. It principally gathers information on
 tree-related statistics, including but not limited to gathering
 longitudinal provisional data on the estimated amount of woodland area
 in the UK.</p>
-<p>The main rationale for exploring this data was to elucidate the
-increase in hectares of woodland area within each country between
-1998-2023, and also go beyond the original data-set to calculate and
-contextualise the <em>percentage</em> increase of woodland within each
-country across this time-frame.</p>
+</div>
+<div id="the-research-question" class="section level3">
+<h3>The Research Question</h3>
+<p>The main rationale for exploring this data was to elucidate whether
+there has been a growth in woodland area within the United Kingdom
+between 1998 and 2023, using existing data on the amount of hectares of
+woodland within each country. In tandem, calculating the
+<em>percentage</em> increase per country would aid in contextualising
+whether countries are developing at similar or dissimilar rates, in
+spite of notably different amounts of actual woodland.</p>
 </div>
 <div id="data-preparation" class="section level3">
 <h3>Data Preparation</h3>
@@ -1732,7 +1737,22 @@ for(country in country_names){
   percentage_increase&lt;-(((max_v-min_v)/min_v)*100)
   percentage_results&lt;-rbind(percentage_results, data.frame(country=country,percentage_increase=percentage_increase))
 } # calculates the percentage increase from 1998 to 2023 for each country
-percentage_results[1:4,2]&lt;-round(percentage_results[1:4,2],2) # rounds the data to 2 decimal places</code></pre>
+percentage_results[1:4,2]&lt;-round(percentage_results[1:4,2],2) # rounds the data to 2 decimal places
+
+# Data check 
+
+woodland_area_by_country</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["England"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Wales"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Scotland"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Northern_Ireland"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1241","2":"299","3":"1299","4":"81"},{"1":"1246","2":"299","3":"1309","4":"82"},{"1":"1252","2":"300","3":"1320","4":"83"},{"1":"1257","2":"300","3":"1331","4":"83"},{"1":"1262","2":"301","3":"1339","4":"84"},{"1":"1267","2":"301","3":"1346","4":"85"},{"1":"1272","2":"301","3":"1352","4":"86"},{"1":"1277","2":"302","3":"1358","4":"85"},{"1":"1280","2":"302","3":"1362","4":"86"},{"1":"1283","2":"303","3":"1368","4":"87"},{"1":"1285","2":"303","3":"1372","4":"87"},{"1":"1288","2":"303","3":"1376","4":"88"},{"1":"1290","2":"303","3":"1378","4":"88"},{"1":"1292","2":"304","3":"1383","4":"88"},{"1":"1298","2":"305","3":"1403","4":"105"},{"1":"1298","2":"306","3":"1411","4":"111"},{"1":"1302","2":"306","3":"1424","4":"111"},{"1":"1305","2":"306","3":"1432","4":"112"},{"1":"1305","2":"307","3":"1435","4":"112"},{"1":"1306","2":"308","3":"1438","4":"112"},{"1":"1307","2":"309","3":"1446","4":"113"},{"1":"1316","2":"310","3":"1459","4":"113"},{"1":"1320","2":"310","3":"1469","4":"117"},{"1":"1321","2":"310","3":"1476","4":"117"},{"1":"1323","2":"311","3":"1486","4":"118"},{"1":"1326","2":"312","3":"1494","4":"118"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>percentage_results</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["percentage_increase"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"England","2":"6.85"},{"1":"Wales","2":"4.35"},{"1":"Scotland","2":"15.01"},{"1":"Northern_Ireland","2":"45.68"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="data-visualisation" class="section level3">
 <h3>Data Visualisation</h3>

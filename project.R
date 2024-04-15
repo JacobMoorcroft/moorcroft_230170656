@@ -69,6 +69,11 @@ for(country in country_names){
 } # calculates the percentage increase from 1998 to 2023 for each country
 percentage_results[1:4,2]<-round(percentage_results[1:4,2],2) # rounds the data to 2 decimal places
 
+# Data check 
+
+woodland_area_by_country
+percentage_results
+
 # Removal of all unnecessary variables, and creation of data-frame amenable to the upcoming visualisation
 
 rm(list=setdiff(ls(),c("woodland_area_by_country","country_names","year_ending_March_31st", "plot","percentage_results","fig_path")))
