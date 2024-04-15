@@ -6,7 +6,7 @@
 #libraries<-c("tidyverse","cowplot", "ggplot2", "readODS", "here", "rlang", "dplyr")
 #install.packages(libraries, repos="http://cran.rstudio.com")
 
-# Loading of necessary libraries
+# Loading of necessary packages:
 
 library(tidyverse)
 library(ggplot2)
