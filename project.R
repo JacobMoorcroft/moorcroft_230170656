@@ -79,7 +79,7 @@ percentage_results
 
 # Removes all the unnecessary variables, and creates a final data-frame amenable to the upcoming visualisation
 
-rm(list=setdiff(ls(),c("woodland_area_by_country","country_names","year_ending_March_31st", "plot","percentage_results","fig_path")))
+rm(list=setdiff(ls(),c("processed_extracted_data","woodland_area_by_country","country_names","year_ending_March_31st", "plot","percentage_results","fig_path")))
 woodland_growth_over_time<-data.frame(
   country=c(rep("England",26),rep("Wales",26),rep("Scotland",26),rep("Northern Ireland",26)),
   woodland=c(woodland_area_by_country$England,woodland_area_by_country$Wales,
@@ -97,7 +97,7 @@ fig_path<-here("figs")
 FinalPlot<-woodland_growth_over_time %>%
   ggplot(mapping=mapping)+
   geom_smooth(method="gam")+
-  geom_point(alpha=1,shape=19)+
+  geom_point(alpha=1,shape=21)+
   labs(x="Year commencing from March 31st",
        y="Woodland area (in thousand hectares)",
        colour="Country",
