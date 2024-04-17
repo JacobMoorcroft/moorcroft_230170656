@@ -140,13 +140,13 @@ fig_path<-here("figs") # creates the necessary path for saving the figure
 FinalPlot<-woodland_growth_over_time %>%
   ggplot(mapping=mapping)+
   geom_smooth(method="gam")+
-  geom_point()+
+  geom_point(alpha=1,shape=19)+
   labs(x="Year commencing from March 31st",
        y="Woodland area (in thousand hectares)",
        colour="Country",
        title="The Growth of Woodland Area within the United Kingdom",
        subtitle="As annotated with percentage increase from 1998-2023",
-       caption="Retrieved from: Forest Research, 2023")+
+       caption="Data retrieved from: Forest Research, 2023")+
   annotate("label",x=2010,y=1210,label=paste(percentage_results[1,2],"%"),colour="#EE0000",size=3,fontface="bold")+
   annotate("label",x=2010,y=375,label=paste(percentage_results[2,2],"%"),colour="#00CD00",size=3,fontface="bold")+
   annotate("label",x=2010,y=1450,label=paste(percentage_results[3,2],"%"),colour="#0000CD",size=3,fontface="bold")+
@@ -156,9 +156,11 @@ FinalPlot<-woodland_growth_over_time %>%
   scale_x_continuous(breaks=seq(1998,2023,5))+
   scale_y_continuous(breaks=seq(0,1500,150))+
   theme(panel.border=element_rect(colour="#8B7355",fill=NA,linewidth=2),
-        panel.grid.minor=element_line(colour="#CAFF70"),
-        panel.grid.major=element_line(colour="#CAFF70"),
-        panel.background=element_rect(fill="white"))
+        panel.grid.minor=element_line(colour="#CAFF70",linewidth=0.5),
+        panel.grid.major=element_line(colour="#CAFF70",linewidth=0.7),
+        panel.background=element_rect(fill="#FFFFF0"),
+        plot.subtitle=element_text(face="italic"),
+        legend.box.background=element_rect(fill="black"))
 
 FinalPlot
 ```
