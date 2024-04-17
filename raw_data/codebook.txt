@@ -1,0 +1,26 @@
+
+Provisional Woodland Statistics 2023
+"This release provides provisional estimates of woodland area for the UK and for England, Wales, 
+Scotland and Northern Ireland"
+
+Data period date: 31 March 2023
+Publication date: 15 June 2023 
+Source(s): Forest Research; via 
+                            National Forest Inventory
+                            Forestry England = FE
+                            Forestry Commission
+                            Natural Resources Wales = NRW
+                            Welsh Government
+                            Forestry and Land Scotland = FLS
+                            Scottish Forestry
+                            Forest Service = FS
+
+Variables:
+
+Table A1 = data for England, 1998-2023
+`Year ending 31 March` = Year during which data was gathered, 1998:2023
+'FE conifers (thousand ha)` = public woodland area consisting of coniferous trees in England, measured in thousand hectares
+`Private sector conifers (thousand ha) = private woodland area consisting of coniferous trees in England, measured in thousand hectares
+`FE broadleaves (thousand ha)` = public woodland area consisting of deciduous trees in England, measures in thousand hectares
+`Private sector broadleaves (thousand ha) = private woodland area consisting of deciduous trees in England, measured in thousand hectares
+`England total (thousand ha)` = total woodland area in England, measured in thousand hectares
