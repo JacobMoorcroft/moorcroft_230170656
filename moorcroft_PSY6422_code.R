@@ -97,7 +97,6 @@ fig_path<-here("figs")
 FinalPlot<-woodland_growth_over_time %>%
   ggplot(mapping=mapping)+
   geom_smooth(method="gam")+
-  geom_point(alpha=1,shape=21)+
   labs(x="Year commencing from March 31st",
        y="Woodland area (in thousand hectares)",
        colour="Country",
