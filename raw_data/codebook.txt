@@ -1,10 +1,18 @@
 
-Provisional Woodland Statistics 2023
-"This release provides provisional estimates of woodland area for the UK and for England, Wales, 
-Scotland and Northern Ireland"
+The document used is an ODS file containing 8 distinct sheets, of which 3 briefly outline the purpose of the document
+and its sources, and 5 provide provisional estimates of woodland area per country and within the UK, as divided by
+coniferous and deciduous woodland area, public and private sector woodland area, and as total amalgamated estimates.
 
+Sheets:
+
+Cover = Provisional Woodland Statistics 2023
+"This release provides provisional estimates of woodland area for the UK and for England, Wales, Scotland and Northern Ireland"
 Data period date: 31 March 2023
 Publication date: 15 June 2023 
+
+Contents = lists the sheets included in the ODS document
+
+Notes = clarifies the sources used to supplement the data
 Source(s): Forest Research; via 
                             National Forest Inventory
                             Forestry England = FE
@@ -15,12 +23,49 @@ Source(s): Forest Research; via
                             Scottish Forestry
                             Forest Service = FS
 
-Variables:
-
 Table A1 = data for England, 1998-2023
+Source: National Forestry Inventory, FE, Forestry Commission
 `Year ending 31 March` = Year during which data was gathered, 1998:2023
 'FE conifers (thousand ha)` = public woodland area consisting of coniferous trees in England, measured in thousand hectares
 `Private sector conifers (thousand ha) = private woodland area consisting of coniferous trees in England, measured in thousand hectares
 `FE broadleaves (thousand ha)` = public woodland area consisting of deciduous trees in England, measures in thousand hectares
 `Private sector broadleaves (thousand ha) = private woodland area consisting of deciduous trees in England, measured in thousand hectares
 `England total (thousand ha)` = total woodland area in England, measured in thousand hectares
+
+Table A2 = data for Wales, 1998-2023
+Source: National Forest Inventory, NRW, Welsh Government
+`Year ending 31 March` = Year during which data was gathered, 1998:2023
+'NRW conifers (thousand ha)` = public woodland area consisting of coniferous trees in Wales, measured in thousand hectares
+`Private sector conifers (thousand ha) = private woodland area consisting of coniferous trees in Wales, measured in thousand hectares
+`NRW broadleaves (thousand ha)` = public woodland area consisting of deciduous trees in Wales, measures in thousand hectares
+`Private sector broadleaves (thousand ha) = private woodland area consisting of deciduous trees in Wales, measured in thousand hectares
+`Wales total (thousand ha)` = total woodland area in Wales, measured in thousand hectares
+
+Table A3 = data for Scotland, 1998-2023
+Source: National Forest Inventory, FLS, Scottish Forestry
+`Year ending 31 March` = Year during which data was gathered, 1998:2023
+'FLS conifers (thousand ha)` = public woodland area consisting of coniferous trees in Scotland, measured in thousand hectares
+`Private sector conifers (thousand ha) = private woodland area consisting of coniferous trees in Scotland, measured in thousand hectares
+`FLS broadleaves (thousand ha)` = public woodland area consisting of deciduous trees in Scotland, measures in thousand hectares
+`Private sector broadleaves (thousand ha) = private woodland area consisting of deciduous trees in Scotland, measured in thousand hectares
+`Scotland total (thousand ha)` = total woodland area in Scotland, measured in thousand hectares
+
+Table A4 = data for Northern Ireland, 1998-2023
+Source: FS
+`Year ending 31 March` = Year during which data was gathered, 1998:2023
+*'FS conifers (thousand ha)` = public woodland area consisting of coniferous trees in Northern Ireland, measured in thousand hectares
+*`Private sector conifers (thousand ha) = private woodland area consisting of coniferous trees in Northern Ireland, measured in thousand hectares
+*`FS broadleaves (thousand ha)` = public woodland area consisting of deciduous trees in Northern Ireland, measures in thousand hectares
+*`Private sector broadleaves (thousand ha) = private woodland area consisting of deciduous trees in Northern Ireland, measured in thousand hectares
+`Northern Ireland total (thousand ha)` = total woodland area in Northern Ireland, measured in thousand hectares
+
+*Missing data was simply left blank within the original document. None of it was required for the visualisation as overall woodland was still reported.
+
+Table A5 = data for the United Kingdom (UK) as a whole, 1998-2023
+Source: National Forest Inventory, FE, Forestry Commission, FLS, Scottish Forestry, NRW, Welsh Government, FS
+`Year ending 31 March` = Year during which data was gathered, 1998:2023
+'FE/FLS/NRW/FS conifers (thousand ha)` = public woodland area consisting of coniferous trees in the UK, measured in thousand hectares
+`Private sector conifers (thousand ha) = private woodland area consisting of coniferous trees in the UK, measured in thousand hectares
+`FE/FLS/NRW/FS broadleaves (thousand ha)` = public woodland area consisting of deciduous trees in the UK, measures in thousand hectares
+`Private sector broadleaves (thousand ha) = private woodland area consisting of deciduous trees in the UK, measured in thousand hectares
+`UK total (thousand ha)` = total woodland area in the UK, measured in thousand hectares
