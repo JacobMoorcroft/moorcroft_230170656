@@ -47,7 +47,7 @@ rm(list=setdiff(ls(), "raw_extracted_data")) # removes now unnecessary variables
 
 # Glimpse of the raw data
 
-raw_extracted_data
+head(raw_extracted_data)
 ```
 
 
@@ -68,7 +68,7 @@ processed_extracted_data<-processed_extracted_data[-1,] # removes text names fro
 
 # Glimpse of the processed data
 
-processed_extracted_data
+head(processed_extracted_data)
 ```
 
 From the now processed data-frame, all of the data on the amount of woodland area needed to be tabulated to give a glimpse of how woodland has developed - as well as facilitate the calculation of percentage increase in total woodland from 1998 to 2023 for each country.
