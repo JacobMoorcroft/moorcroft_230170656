@@ -17,17 +17,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Data Source
 
-This project is focussed on visualising the increase in woodland within the **United Kingdom**, as categorised by each *country*, from *1998* to *2023*. The raw data for this project was retrieved from ['Forest Research'](https://www.forestresearch.gov.uk/tools-and-resources/statistics/data-downloads/), a branch of the Forestry Commission (FC) which collects data by totaling extractions made by multiple forest services operating in the United Kingdom. It principally gathers information on tree-related statistics, including but not limited to gathering longitudinal provisional data on the estimated amount of woodland area in the UK.
+This project is focussed on visualising the increase in woodland within the United Kingdom, per country, from 1998 to 2023. The raw data for this project was retrieved from ['Forest Research'](https://www.forestresearch.gov.uk/tools-and-resources/statistics/data-downloads/), a branch of the Forestry Commission (FC) which collects data by totaling extractions made from multiple forest services operating within the United Kingdom. It principally gathers information on tree-related statistics, including but not limited to gathering longitudinal provisional data on the estimated amount of woodland area in the UK.
 
-### The Research Question
+The “Woodland area, UK, 1998 to 2023” ODS file contained 5 sheets of actual data, though was also supplemented with cover, content and notes pages. In tandem, the pages containing data were annotated with further notes clarifying the origin of the data and different commissions involved in gathering it. The pages containing data split woodland area based on whether it was coniferous or deciduous, private or public sector, and totalled estimated woodland per country and in the United Kingdom as a whole.
 
-The main rationale for exploring this data was to elucidate whether there has been a growth in woodland area within the United Kingdom between 1998 and 2023, using existing data on the amount of hectares of woodland within each country. In tandem, calculating the *percentage* increase per country would aid in contextualising whether countries are developing at similar or dissimilar rates, in spite of notably different amounts of actual woodland.
-
-### Data Preparation
-
-The “Woodland area, UK, 1998 to 2023” ODS file contained 5 sheets of actual data, though was also supplemented with cover, content and notes pages. In tandem, the pages containing data were annotated with further notes clarifying the origin of the data and different commissions involved in gathering it. 
-
-	
 ```{r, message=FALSE, warning=FALSE, echo=TRUE}
 # Loading of necessary packages:
 
@@ -58,8 +51,13 @@ raw_extracted_data
 ```
 
 
+### The Research Question
 
-Before continuing, further lines of text needed to be removed in order to make the data more amenable to analysis.
+The main rationale for exploring this data was to elucidate whether there has been a growth in woodland area within the United Kingdom between 1998 and 2023. Furthermore, beyond just visualising the raw numeric increase, calculating the *percentage* increase per country would aid in contextualising whether countries are developing at similar rates, beyond just interpreting development based on the different amounts of reported woodland.
+
+### Data Preparation
+
+Based on this research question, the main variables of interest were the *Year* and the *total Woodland Area* (in thousand hectares) of each country, per year. Before continuing, lines of descriptive text needed to be removed in order to make the data more amenable to analysis.
 
 ```{r, echo=TRUE}
 # Processing and cleaning of data
@@ -73,11 +71,7 @@ processed_extracted_data<-processed_extracted_data[-1,] # removes text names fro
 processed_extracted_data
 ```
 
-
-
-
-
-From the now processed data-frame, only the *Year*, and the **total** *Woodland Area* (in thousand hectares) of each country, per year, need to be extracted for the visualisation. All of the data on the amount of woodland area also needed to be used to calculate the percentage increase from 1998 to 2023 for each country.
+From the now processed data-frame, all of the data on the amount of woodland area needed to be tabulated to give a glimpse of how woodland has developed - as well as facilitate the calculation of percentage increase in total woodland from 1998 to 2023 for each country.
 
 ```{r, message=FALSE, warning=FALSE, echo=TRUE}
 # Extracts the Years and Amount of Woodland Area for each country
@@ -115,14 +109,16 @@ woodland_area_by_country
 percentage_results
 ```
 
+As is viewable above, there has been evident growth of woodland within all countries of the United Kingdom from 1998 to 2023 - in tandem, calculating the percentage increase is especially beneficial for showing that in spite of smaller countries, namely Northern Ireland, having the lowest baseline (81 thousand hectares) and final (118 thousand hectares) woodland estimates, their *proportional* increase (45.68%) is quite notable.
+
 ### Data Visualisation
 
-Finally, a visualisation of the growth of woodland area within the countries of the United Kingdom from 1998 to 2023 can be created, which displays this development both in terms of numeric and proportional increase.
+Finally, a visualisation of the growth of woodland area within the countries of the United Kingdom from 1998 to 2023 can be created, which displays this development both in terms of its numeric and proportional increase.
 
 ```{r, message=FALSE, echo=TRUE}
 # Removes all the unnecessary variables, and creates a final data-frame amenable to the upcoming visualisation
 
-rm(list=setdiff(ls(),c("woodland_area_by_country","country_names","year_ending_March_31st", "plot","percentage_results")))
+rm(list=setdiff(ls(),c("processed_extracted_data","woodland_area_by_country","country_names","year_ending_March_31st", "plot","percentage_results")))
 woodland_growth_over_time<-data.frame(
   country=c(rep("England",26),rep("Wales",26),rep("Scotland",26),rep("Northern Ireland",26)),
   woodland=c(woodland_area_by_country$England,woodland_area_by_country$Wales,
@@ -140,7 +136,7 @@ fig_path<-here("figs") # creates the necessary path for saving the figure
 FinalPlot<-woodland_growth_over_time %>%
   ggplot(mapping=mapping)+
   geom_smooth(method="gam")+
-  geom_point(alpha=1,shape=19)+
+  geom_point(alpha=1,shape=21)+
   labs(x="Year commencing from March 31st",
        y="Woodland area (in thousand hectares)",
        colour="Country",
@@ -176,8 +172,4 @@ ggsave(file.path(fig_path,filename),plot=FinalPlot,width=7,height=6.37)
 
 ### Conclusion
 
-From this plot, there is visual clarity that the growth of woodland area within countries should be interpreted both in the context of actual hectares of woodland area developed, in tandem with the proportional increase relative to the original amount of woodland within the country - this is because taking either of these measures outside of the context of the other could be misleading. For example, interpreting that Wales has made superior efforts to increase Woodland area compared to Northern Ireland, in the context that Wales visually has a higher *amount* of woodland, neglects how Northern Ireland has theoretically made grander efforts than Wales to expand on the notion that they have a higher *percentage increase* in woodland. Regardless of these differences, the data can simply be interpreted on the promising notion that all countries within the United Kingdom have experienced an expansion of woodland between 1998 and 2023.
-
-
-
-
+From this plot, there is visual clarity that the growth of woodland area within countries should be interpreted both in the context of actual hectares of woodland area developed, as well as the proportional increase relative to the original amount of woodland within each country. This is because reporting either of these measures outside of the context of the other could be misleading. For example, interpreting that Wales has made superior efforts to increase Woodland area compared to Northern Ireland, in the context that Wales visually has a higher *amount* of woodland, neglects how Northern Ireland has shown greater expansion than Wales on the notion that they have a higher *percentage increase* in woodland. Regardless of these differences, the data can simply be interpreted on the promising notion that all countries within the United Kingdom have experienced an expansion of woodland between 1998 and 2023. Further research could use data from the original file to map differences in the development of public or private sector woodland, or even split based on being deciduous or coniferous.
