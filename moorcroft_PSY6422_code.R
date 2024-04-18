@@ -3,7 +3,7 @@
 
 # Should the packages need to be installed:
 
-#libraries<-c("tidyverse","cowplot", "ggplot2", "readODS", "here", "rlang", "dplyr")
+#libraries<-c("tidyverse","cowplot", "ggplot2", "readODS", "here")
 #install.packages(libraries, repos="http://cran.rstudio.com")
 
 # Loading of necessary packages:
@@ -12,8 +12,6 @@ library(tidyverse)
 library(ggplot2)
 library(readODS)
 library(here)
-library(rlang)
-library(dplyr)
 library(cowplot)
 
 # Extraction of raw data from the ODS file
@@ -97,7 +95,7 @@ fig_path<-here("figs")
 FinalPlot<-woodland_growth_over_time %>%
   ggplot(mapping=mapping)+
   geom_smooth(method="gam")+
-  labs(x="Year commencing from March 31st",
+  labs(x="Year (commencing from March 31st)",
        y="Woodland area (in thousand hectares)",
        colour="Country",
        title="The Growth of Woodland Area within the United Kingdom",
@@ -115,8 +113,12 @@ FinalPlot<-woodland_growth_over_time %>%
         panel.grid.minor=element_line(colour="#CAFF70",linewidth=0.5),
         panel.grid.major=element_line(colour="#CAFF70",linewidth=0.7),
         panel.background=element_rect(fill="#FFFFF0"),
+        axis.line=element_line(linewidth=2,colour="#8B7355"),
         plot.subtitle=element_text(face="italic"),
-        legend.box.background=element_rect(fill="black"))
+        legend.title=element_blank(),
+        legend.box.background=element_rect(colour="#8B7355"),
+        legend.box.margin=margin(1,1,1,1),
+        legend.key=element_rect(colour="#8B7355"))
 
 FinalPlot
 
