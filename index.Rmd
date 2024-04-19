@@ -154,6 +154,7 @@ FinalPlot<-woodland_growth_over_time %>%
         panel.background=element_rect(fill="#FFFFF0"),
         axis.line=element_line(linewidth=2,colour="#8B7355"),
         plot.subtitle=element_text(face="italic"),
+        text=element_text(family="serif"),
         legend.title=element_blank(),
         legend.box.background=element_rect(colour="#8B7355"),
         legend.box.margin=margin(1,1,1,1),
