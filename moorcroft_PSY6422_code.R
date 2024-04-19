@@ -3,16 +3,17 @@
 
 # Should the packages need to be installed:
 
-#libraries<-c("tidyverse","cowplot", "ggplot2", "readODS", "here")
+#libraries<-c("tidyverse", "cowplot", "magick", "ggplot2", "readODS", "here")
 #install.packages(libraries, repos="http://cran.rstudio.com")
 
 # Loading of necessary packages:
 
 library(tidyverse)
+library(cowplot)
+library(magick)
 library(ggplot2)
 library(readODS)
 library(here)
-library(cowplot)
 
 # Extraction of raw data from the ODS file
 
@@ -85,10 +86,11 @@ woodland_growth_over_time<-data.frame(
   year=c(year_ending_March_31st)
 )
 
-# Creates the mapping for the visualisation, and the figure path for saving it
+# Preliminary mapping and path creation
 
-mapping<-aes(x=year,y=woodland,colour=country)
-fig_path<-here("figs")
+mapping<-aes(x=year,y=woodland,colour=country) # creates the mapping for the visualisation
+fig_path<-here("figs") # creates the necessary path for saving the figure
+logo_file<-paste0(here("logo","Picture1.jpg")) # creates the path for applying the logo
 
 # Visualisation of the growth of woodland area within the United Kingdom, from 1998 to 2023
 
@@ -122,6 +124,10 @@ FinalPlot<-woodland_growth_over_time %>%
         legend.box.margin=margin(1,1,1,1),
         legend.key=element_rect(colour="#8B7355"))
 
+# Adds the official logo alongside the data source
+
+FinalPlot<-ggdraw(FinalPlot)+
+  draw_image(logo_file, scale=.2,x=1,hjust=1,halign=1,valign=0)
 FinalPlot
 
 # Saves the plot
