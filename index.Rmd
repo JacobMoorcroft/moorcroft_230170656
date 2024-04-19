@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Data Source
 
-This project is focussed on visualising the increase in woodland within the United Kingdom, per country, from 1998 to 2023. The raw data for this project was retrieved from ['Forest Research'](https://www.forestresearch.gov.uk/tools-and-resources/statistics/data-downloads/), a branch of the Forestry Commission (FC) which collects data by totaling extractions made from multiple forest services operating within the United Kingdom. It principally gathers information on tree-related statistics, including but not limited to gathering longitudinal provisional data on the estimated amount of woodland area in the UK.
+This project is focussed on visualising the increase in woodland within the United Kingdom, per country, from 1998 to 2023. The raw data and logo for this project were retrieved from ['Forest Research'](https://www.forestresearch.gov.uk/tools-and-resources/statistics/data-downloads/), a branch of the Forestry Commission (FC) which collects data by totaling extractions made from multiple forest services operating within the United Kingdom. It principally gathers information on tree-related statistics, including but not limited to gathering longitudinal provisional data on the estimated amount of woodland area in the UK.
 
 The “Woodland area, UK, 1998 to 2023” ODS file contained 5 sheets of actual data, though was also supplemented with cover, content and notes pages. In tandem, the pages containing data were annotated with further notes clarifying the origin of the data and different commissions involved in gathering it. The pages containing data split woodland area based on whether it was coniferous or deciduous, private or public sector, and totalled estimated woodland per country and in the United Kingdom as a whole.
 
@@ -25,10 +25,11 @@ The “Woodland area, UK, 1998 to 2023” ODS file contained 5 sheets of actual 
 # Loading of necessary packages:
 
 library(tidyverse)
+library(cowplot)
+library(magick)
 library(ggplot2)
 library(readODS)
 library(here)
-library(cowplot)
 
 # Extraction of raw data from the ODS file
 
@@ -124,10 +125,11 @@ woodland_growth_over_time<-data.frame(
   year=c(year_ending_March_31st)
 )
 
-# Creates the mapping for the visualisation, and the figure path for saving it
+# Preliminary mapping and path creation
 
 mapping<-aes(x=year,y=woodland,colour=country) # creates the mapping for the visualisation
 fig_path<-here("figs") # creates the necessary path for saving the figure
+logo_file<-paste0(here("logo","Picture1.jpg")) # creates the path for applying the logo
 
 # Visualisation of the growth of woodland area within the United Kingdom, from 1998 to 2023
 
@@ -160,6 +162,11 @@ FinalPlot<-woodland_growth_over_time %>%
         legend.box.background=element_rect(colour="#8B7355"),
         legend.box.margin=margin(1,1,1,1),
         legend.key=element_rect(colour="#8B7355"))
+
+# Adds the official logo alongside the data source
+
+FinalPlot<-ggdraw(FinalPlot)+
+  draw_image(logo_file, scale=.2,x=1,hjust=1,halign=1,valign=0)
 
 FinalPlot
 ```
