@@ -1,21 +1,22 @@
-## This code has been designed to extract data on the provisional woodland area within each country of the United Kingdom from 1998-2023, calculate the
-## percentage increase over time, and visualise the overall growth of woodland area in the UK from 1998-2023 both in total amount and proportional increase
+## This code has been designed to extract data on the provisional woodland area within each country of the United Kingdom (UK) from 1998-2023, calculate the
+## percentage increase for each country over this time period, then visualise the growth of woodland area in the UK from 1998-2023 both in terms of numeric 
+## and proportional changes. This facilitates more appropriate comparisons of woodland development in the UK than simply changes from base amount in 1998.
 
-# Should the packages need to be installed:
+## Should packages need to be installed, remove '#' and run:
 
-#libraries<-c("tidyverse", "cowplot", "magick", "ggplot2", "readODS", "here")
+#libraries<-c("tidyverse", "cowplot", "magick", "readODS", "here")
 #install.packages(libraries, repos="http://cran.rstudio.com")
 
-# Loading of necessary packages:
+## NECESSARY PACKAGES:
 
+library(here)
+library(readODS)
 library(tidyverse)
 library(cowplot)
 library(magick)
-library(ggplot2)
-library(readODS)
-library(here)
 
-# Extraction of raw data from the ODS file
+## DATA PREPARATION:
+# Extraction of raw data from ODS file
 
 sheets<-c("England","Wales","Scotland","Northern Ireland")
 countries_list<-list()
@@ -23,10 +24,10 @@ for (i in seq_along(sheets)){
   countries<-sheets[i]
   pathway<-paste0(here("raw_data", "area-timeseries-15jun23.ods"))
   countries_list[[countries]]<-read_ods(pathway, sheet = i+3)
-} # this loop extracts all of the raw data and collates it into a data-frame
+} # this loop extracts all of the raw data from the country-specific sheets
+raw_extracted_data<-data.frame(countries_list) # which is then put into a dataframe
 
-raw_extracted_data<-data.frame(countries_list)
-rm(list=setdiff(ls(), "raw_extracted_data")) # removes now unnecessary variables to clean environment
+rm(list=setdiff(ls(), "raw_extracted_data")) # removes unnecessary variables to clean environment
 
 # Glimpse of the raw data
 
@@ -42,57 +43,55 @@ processed_extracted_data<-processed_extracted_data[-1,] # removes text names fro
 
 processed_extracted_data
 
-# Extracts the Years and Amount of Woodland Area for each country
+## DATA EXTRACTION: 
+# Extraction of necessary variables from processed dataframe
 
 year_ending_March_31st<-as.numeric(processed_extracted_data$`Year ending 31 March`) # The Year
 woodland_area<-select(processed_extracted_data, ends_with(" total (thousand ha)")) # Amount of Woodland Area
 country_names<-c("England", "Wales", "Scotland", "Northern Ireland") # Country Names
 
-for (i in country_names){
-  assign(i, as.numeric(woodland_area[[paste0(i, " total (thousand ha)")]]))
-} # converts data to numeric for visualisation
+for (country in country_names){
+  assign(country, as.numeric(woodland_area[[paste0(country, " total (thousand ha)")]]))
+} # creates numeric variables for the woodland area of each country, per year
+woodland_area<-data.frame(England,Wales,Scotland,`Northern Ireland`) # which is then put back into the dataframe
+table(is.na(woodland_area)) # checks for any missing data - none!
 
-# Tabulates change in woodland area per country from 1998 to 2023
-
-woodland_area_by_country<-data.frame(England,Wales,Scotland,`Northern Ireland`)
-woodland_area_by_country<-woodland_area_by_country%>%
+woodland_area<-woodland_area%>%
   rename(Northern_Ireland=`Northern.Ireland`)
-table(is.na(woodland_area_by_country)) #no missing data!
-country_names<-c("England", "Wales", "Scotland", "Northern_Ireland")
+country_names<-c("England", "Wales", "Scotland", "Northern_Ireland") # corrects for interaction issues caused by spacing of `Northern Ireland`
 
-# Calculates percentage increase in woodland area per country from 1998 to 2023
+# Calculation of proportional change in woodland area per country
 
-percentage_results<-data.frame(country=character(),percentage_increase=numeric(),stringsAsFactors=FALSE) # creates an empty data-frame
+percentage_results<-data.frame(country=character(),percentage_increase=numeric(),stringsAsFactors=FALSE) # creates an empty dataframe
 for(country in country_names){
-  min_v<-min(woodland_area_by_country[[country]])
-  max_v<-max(woodland_area_by_country[[country]])
+  min_v<-min(woodland_area[[country]])
+  max_v<-max(woodland_area[[country]])
   percentage_increase<-(((max_v-min_v)/min_v)*100)
   percentage_results<-rbind(percentage_results, data.frame(country=country,percentage_increase=percentage_increase))
-} # calculates the percentage increase from 1998 to 2023 for each country
-percentage_results[1:4,2]<-round(percentage_results[1:4,2],2) # rounds the data to 2 decimal places
+} # this loop calculates the percentage increase in woodland area of each country from 1998-2023
+percentage_results[1:4,2]<-round(percentage_results[1:4,2],2) # then rounds the data to 2 decimal places
 
-# Shows the data to allow a visual check for the validity and credibility of the results 
+## PRELIMINARY DATA CHECK: 
 
-woodland_area_by_country
+woodland_area
 percentage_results
 
-# Removes all the unnecessary variables, and creates a final data-frame amenable to the upcoming visualisation
+## VISUALISATION:
 
-rm(list=setdiff(ls(),c("processed_extracted_data","woodland_area_by_country","country_names","year_ending_March_31st", "plot","percentage_results","fig_path")))
+rm(list=setdiff(ls(),c("woodland_area","year_ending_March_31st","country_names","percentage_results"))) # removes all unnecessary variables
+
 woodland_growth_over_time<-data.frame(
   country=c(rep("England",26),rep("Wales",26),rep("Scotland",26),rep("Northern Ireland",26)),
-  woodland=c(woodland_area_by_country$England,woodland_area_by_country$Wales,
-             woodland_area_by_country$Scotland,woodland_area_by_country$Northern_Ireland),
+  woodland=c(woodland_area$England,woodland_area$Wales,
+             woodland_area$Scotland,woodland_area$Northern_Ireland),
   year=c(year_ending_March_31st)
-)
-
-# Preliminary mapping and path creation
+) # creates a final dataframe amenable to the upcoming visualisation
 
 mapping<-aes(x=year,y=woodland,colour=country) # creates the mapping for the visualisation
 fig_path<-here("figs") # creates the necessary path for saving the figure
 logo_file<-paste0(here("logo","Picture1.jpg")) # creates the path for applying the logo
 
-# Visualisation of the growth of woodland area within the United Kingdom, from 1998 to 2023
+# Creates a plot mapping the amount of woodland area development from 1998-2023, as divisable by country, and as annotated with percentage increase
 
 FinalPlot<-woodland_growth_over_time %>%
   ggplot(mapping=mapping)+
@@ -119,18 +118,21 @@ FinalPlot<-woodland_growth_over_time %>%
         plot.title=element_text(face="bold"),
         plot.subtitle=element_text(face="italic"),
         text=element_text(family="serif"),
-        legend.title=element_blank(),
+        legend.title=element_text(face="bold"),
         legend.box.background=element_rect(colour="#8B7355"),
         legend.box.margin=margin(1,1,1,1),
         legend.key=element_rect(colour="#8B7355"))
 
-# Adds the official logo alongside the data source
+# Adds the official logo to sit alongside the data source
 
 FinalPlot<-ggdraw(FinalPlot)+
   draw_image(logo_file, scale=.2,x=1,hjust=1,halign=1,valign=0)
+
+## Visualisation of the growth of woodland area within the United Kingdom, from 1998 to 2023
+
 FinalPlot
 
-# Saves the plot
+## SAVES THE PLOT
 
 filename<-paste("The Growth of Woodland Area in the UK from 1998 to 2023.png",sep="")
 ggsave(file.path(fig_path,filename),plot=FinalPlot,width=7,height=6.37)
