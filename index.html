@@ -2880,10 +2880,10 @@ library(magick)
 # Extraction of raw data from ODS file
 
 sheets&lt;-c(&quot;England&quot;,&quot;Wales&quot;,&quot;Scotland&quot;,&quot;Northern Ireland&quot;)
+pathway&lt;-paste0(here(&quot;raw_data&quot;, &quot;area-timeseries-15jun23.ods&quot;))
 countries_list&lt;-list()
 for (i in seq_along(sheets)){
   countries&lt;-sheets[i]
-  pathway&lt;-paste0(here(&quot;raw_data&quot;, &quot;area-timeseries-15jun23.ods&quot;))
   countries_list[[countries]]&lt;-read_ods(pathway, sheet = i+3)
 } # this loop extracts all of the raw data from the country-specific sheets
 raw_extracted_data&lt;-data.frame(countries_list) # which is then put into a dataframe
@@ -3086,11 +3086,11 @@ other available data from the Forest Research service, such as how the
 amount of sawmills and wood production has changed from 1998-2023, could
 be interesting for investigating whether the rate of increasing woodland
 is sustainable compared to the rate of increasing wood production by
-sawmills in the UK. Beyond Forest Research data, taking into account the
-actual geographic size of each country would be highly insightful for
-mapping this change in relation to both total land area, and the
-percentage of the country which is covered in woodland area (and how
-this changes).</p>
+sawmills in the UK. Beyond the constraints of the available data, taking
+into account the actual geographic size of each country could also be
+highly insightful for mapping this change in relation to both total land
+area, and the percentage of each country which is covered in woodland
+area (and how this changes).</p>
 </div>
 <div id="full-data-reference" class="section level3">
 <h3>Full Data Reference</h3>

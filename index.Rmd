@@ -48,10 +48,10 @@ library(magick)
 # Extraction of raw data from ODS file
 
 sheets<-c("England","Wales","Scotland","Northern Ireland")
+pathway<-paste0(here("raw_data", "area-timeseries-15jun23.ods"))
 countries_list<-list()
 for (i in seq_along(sheets)){
   countries<-sheets[i]
-  pathway<-paste0(here("raw_data", "area-timeseries-15jun23.ods"))
   countries_list[[countries]]<-read_ods(pathway, sheet = i+3)
 } # this loop extracts all of the raw data from the country-specific sheets
 raw_extracted_data<-data.frame(countries_list) # which is then put into a dataframe
@@ -204,7 +204,7 @@ ggsave(file.path(fig_path,filename),plot=FinalPlot,width=7,height=6.37)
 ### Conclusion
 
 From this plot, there is visual clarity that the growth of woodland area within countries should be interpreted both in the context of actual hectares of woodland area developed, as well as the proportional increase relative to the original amount of woodland within each country. This is because reporting either of these measures outside of the context of the other could be misleading. For example, interpreting that England or Scotland have made superior efforts to increase Woodland area compared to Northern Ireland, in the context that they have gained considerably higher *amounts* of woodland area from 1998-2023, neglects how Northern Ireland has shown greater proportional growth through a higher *percentage* increase in native woodland. 
-Regardless of these differences, the data and accompanying visual can simply be interpreted on the promising notion that all countries within the United Kingdom have shown a growth in woodland area between 1998 and 2023. Further research could use data from the original file to map differences in the development of public or private sector woodland, or even split based on being deciduous or coniferous. In tandem, usage of other available data from the Forest Research service, such as how the amount of sawmills and wood production has changed from 1998-2023, could be interesting for investigating whether the rate of increasing woodland is sustainable compared to the rate of increasing wood production by sawmills in the UK. Beyond Forest Research data, taking into account the actual geographic size of each country would be highly insightful for mapping this change in relation to both total land area, and the percentage of the country which is covered in woodland area (and how this changes).
+Regardless of these differences, the data and accompanying visual can simply be interpreted on the promising notion that all countries within the United Kingdom have shown a growth in woodland area between 1998 and 2023. Further research could use data from the original file to map differences in the development of public or private sector woodland, or even split based on being deciduous or coniferous. In tandem, usage of other available data from the Forest Research service, such as how the amount of sawmills and wood production has changed from 1998-2023, could be interesting for investigating whether the rate of increasing woodland is sustainable compared to the rate of increasing wood production by sawmills in the UK. Beyond the constraints of the available data, taking into account the actual geographic size of each country could also be highly insightful for mapping this change in relation to both total land area, and the percentage of each country which is covered in woodland area (and how this changes).
 
 ### Full Data Reference
 
