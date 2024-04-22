@@ -1,6 +1,7 @@
 ---
 title: "PSY6422 Data Management and Visualisation"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
     fig_width: 7
@@ -62,7 +63,7 @@ Based on this research question, the main variables of interest were the *Year* 
 # Processing and cleaning of data
 
 processed_extracted_data<-raw_extracted_data[-c(1:3),] # removes unnecessary text
-names(processed_extracted_data)<-as.matrix(processed_extracted_data[1,]) # labels each column by their original titles
+names(processed_extracted_data)<-as.matrix(processed_extracted_data[1,]) # labels by original titles
 processed_extracted_data<-processed_extracted_data[-1,] # removes text names from the data
 
 # Glimpse of the processed data
@@ -83,7 +84,7 @@ country_names<-c("England", "Wales", "Scotland", "Northern Ireland") # Country N
 for (country in country_names){
   assign(country, as.numeric(woodland_area[[paste0(country, " total (thousand ha)")]]))
 } # creates numeric variables for the woodland area of each country, per year
-woodland_area<-data.frame(England,Wales,Scotland,`Northern Ireland`) # which is then put back into the dataframe
+woodland_area<-data.frame(England,Wales,Scotland,`Northern Ireland`) # puts back into dataframe
 table(is.na(woodland_area)) # checks for any missing data - none!
 
 woodland_area<-woodland_area%>%
@@ -116,7 +117,8 @@ Finally, a visualisation of the growth of woodland area within the countries of 
 ```{r, message=FALSE, echo=TRUE}
 ## VISUALISATION:
 
-rm(list=setdiff(ls(),c("woodland_area","year_ending_March_31st","country_names","percentage_results"))) # removes all unnecessary variables
+rm(list=setdiff(ls(),c("woodland_area","year_ending_March_31st","country_names","percentage_results"))) 
+# removes all unnecessary variables
 
 woodland_growth_over_time<-data.frame(
   country=c(rep("England",26),rep("Wales",26),rep("Scotland",26),rep("Northern Ireland",26)),
@@ -129,7 +131,8 @@ mapping<-aes(x=year,y=woodland,colour=country) # creates the mapping for the vis
 fig_path<-here("figs") # creates the necessary path for saving the figure
 logo_file<-paste0(here("logo","Picture1.jpg")) # creates the path for applying the logo
 
-# Creates a plot mapping the amount of woodland area development from 1998-2023, as divisable by country, and as annotated with percentage increase
+# Creates a plot mapping the amount of woodland area development from 1998-2023, as 
+# divisable by country, and as annotated with percentage increase
 
 FinalPlot<-woodland_growth_over_time %>%
   ggplot(mapping=mapping)+
@@ -140,10 +143,14 @@ FinalPlot<-woodland_growth_over_time %>%
        title="The Growth of Woodland Area within the United Kingdom",
        subtitle="As annotated with percentage increase from 1998-2023",
        caption="Data retrieved from: Forest Research, 2023")+
-  annotate("label",x=2010,y=1210,label=paste(percentage_results[1,2],"%"),colour="#EE0000",size=3,fontface="bold")+
-  annotate("label",x=2010,y=375,label=paste(percentage_results[2,2],"%"),colour="#00CD00",size=3,fontface="bold")+
-  annotate("label",x=2010,y=1450,label=paste(percentage_results[3,2],"%"),colour="#0000CD",size=3,fontface="bold")+
-  annotate("label",x=2010,y=175,label=paste(percentage_results[4,2],"%"),colour="#FFA500",size=3,fontface="bold")+
+  annotate("label",x=2010,y=1210,label=paste(percentage_results[1,2],"%"),
+           colour="#EE0000",size=3,fontface="bold")+
+  annotate("label",x=2010,y=375,label=paste(percentage_results[2,2],"%"),
+           colour="#00CD00",size=3,fontface="bold")+
+  annotate("label",x=2010,y=1450,label=paste(percentage_results[3,2],"%"),
+           colour="#0000CD",size=3,fontface="bold")+
+  annotate("label",x=2010,y=175,label=paste(percentage_results[4,2],"%"),
+           colour="#FFA500",size=3,fontface="bold")+
   scale_colour_manual(values=c(England="#EE0000",Wales="#00CD00",
                                Scotland="#0000CD",`Northern Ireland`="#FFA500"))+
   scale_x_continuous(breaks=seq(1998,2023,5))+
