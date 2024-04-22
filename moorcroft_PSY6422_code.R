@@ -3,7 +3,6 @@
 ## and proportional changes. This facilitates more appropriate comparisons of woodland development in the UK than simply changes from base amount in 1998.
 
 ## Should packages need to be installed, remove '#' and run:
-
 #libraries<-c("tidyverse", "cowplot", "magick", "readODS", "here")
 #install.packages(libraries, repos="http://cran.rstudio.com")
 
