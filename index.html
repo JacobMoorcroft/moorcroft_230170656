@@ -1699,7 +1699,7 @@ amenable to analysis.</p>
 <pre class="r"><code># Processing and cleaning of data
 
 processed_extracted_data&lt;-raw_extracted_data[-c(1:3),] # removes unnecessary text
-names(processed_extracted_data)&lt;-as.matrix(processed_extracted_data[1,]) # labels each column by their original titles
+names(processed_extracted_data)&lt;-as.matrix(processed_extracted_data[1,]) # labels by original titles
 processed_extracted_data&lt;-processed_extracted_data[-1,] # removes text names from the data
 
 # Glimpse of the processed data
@@ -1724,7 +1724,7 @@ country_names&lt;-c(&quot;England&quot;, &quot;Wales&quot;, &quot;Scotland&quot;
 for (country in country_names){
   assign(country, as.numeric(woodland_area[[paste0(country, &quot; total (thousand ha)&quot;)]]))
 } # creates numeric variables for the woodland area of each country, per year
-woodland_area&lt;-data.frame(England,Wales,Scotland,`Northern Ireland`) # which is then put back into the dataframe
+woodland_area&lt;-data.frame(England,Wales,Scotland,`Northern Ireland`) # puts back into dataframe
 table(is.na(woodland_area)) # checks for any missing data - none!</code></pre>
 <pre><code>## 
 ## FALSE 
@@ -1775,7 +1775,8 @@ displays this development both in terms of numeric and percentage
 increase.</p>
 <pre class="r"><code>## VISUALISATION:
 
-rm(list=setdiff(ls(),c(&quot;woodland_area&quot;,&quot;year_ending_March_31st&quot;,&quot;country_names&quot;,&quot;percentage_results&quot;))) # removes all unnecessary variables
+rm(list=setdiff(ls(),c(&quot;woodland_area&quot;,&quot;year_ending_March_31st&quot;,&quot;country_names&quot;,&quot;percentage_results&quot;))) 
+# removes all unnecessary variables
 
 woodland_growth_over_time&lt;-data.frame(
   country=c(rep(&quot;England&quot;,26),rep(&quot;Wales&quot;,26),rep(&quot;Scotland&quot;,26),rep(&quot;Northern Ireland&quot;,26)),
@@ -1788,7 +1789,8 @@ mapping&lt;-aes(x=year,y=woodland,colour=country) # creates the mapping for the 
 fig_path&lt;-here(&quot;figs&quot;) # creates the necessary path for saving the figure
 logo_file&lt;-paste0(here(&quot;logo&quot;,&quot;Picture1.jpg&quot;)) # creates the path for applying the logo
 
-# Creates a plot mapping the amount of woodland area development from 1998-2023, as divisable by country, and as annotated with percentage increase
+# Creates a plot mapping the amount of woodland area development from 1998-2023, as 
+# divisable by country, and as annotated with percentage increase
 
 FinalPlot&lt;-woodland_growth_over_time %&gt;%
   ggplot(mapping=mapping)+
@@ -1799,10 +1801,14 @@ FinalPlot&lt;-woodland_growth_over_time %&gt;%
        title=&quot;The Growth of Woodland Area within the United Kingdom&quot;,
        subtitle=&quot;As annotated with percentage increase from 1998-2023&quot;,
        caption=&quot;Data retrieved from: Forest Research, 2023&quot;)+
-  annotate(&quot;label&quot;,x=2010,y=1210,label=paste(percentage_results[1,2],&quot;%&quot;),colour=&quot;#EE0000&quot;,size=3,fontface=&quot;bold&quot;)+
-  annotate(&quot;label&quot;,x=2010,y=375,label=paste(percentage_results[2,2],&quot;%&quot;),colour=&quot;#00CD00&quot;,size=3,fontface=&quot;bold&quot;)+
-  annotate(&quot;label&quot;,x=2010,y=1450,label=paste(percentage_results[3,2],&quot;%&quot;),colour=&quot;#0000CD&quot;,size=3,fontface=&quot;bold&quot;)+
-  annotate(&quot;label&quot;,x=2010,y=175,label=paste(percentage_results[4,2],&quot;%&quot;),colour=&quot;#FFA500&quot;,size=3,fontface=&quot;bold&quot;)+
+  annotate(&quot;label&quot;,x=2010,y=1210,label=paste(percentage_results[1,2],&quot;%&quot;),
+           colour=&quot;#EE0000&quot;,size=3,fontface=&quot;bold&quot;)+
+  annotate(&quot;label&quot;,x=2010,y=375,label=paste(percentage_results[2,2],&quot;%&quot;),
+           colour=&quot;#00CD00&quot;,size=3,fontface=&quot;bold&quot;)+
+  annotate(&quot;label&quot;,x=2010,y=1450,label=paste(percentage_results[3,2],&quot;%&quot;),
+           colour=&quot;#0000CD&quot;,size=3,fontface=&quot;bold&quot;)+
+  annotate(&quot;label&quot;,x=2010,y=175,label=paste(percentage_results[4,2],&quot;%&quot;),
+           colour=&quot;#FFA500&quot;,size=3,fontface=&quot;bold&quot;)+
   scale_colour_manual(values=c(England=&quot;#EE0000&quot;,Wales=&quot;#00CD00&quot;,
                                Scotland=&quot;#0000CD&quot;,`Northern Ireland`=&quot;#FFA500&quot;))+
   scale_x_continuous(breaks=seq(1998,2023,5))+
