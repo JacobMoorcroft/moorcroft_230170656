@@ -18,10 +18,10 @@ library(magick)
 # Extraction of raw data from ODS file
 
 sheets<-c("England","Wales","Scotland","Northern Ireland")
+pathway<-paste0(here("raw_data", "area-timeseries-15jun23.ods"))
 countries_list<-list()
 for (i in seq_along(sheets)){
   countries<-sheets[i]
-  pathway<-paste0(here("raw_data", "area-timeseries-15jun23.ods"))
   countries_list[[countries]]<-read_ods(pathway, sheet = i+3)
 } # this loop extracts all of the raw data from the country-specific sheets
 raw_extracted_data<-data.frame(countries_list) # which is then put into a dataframe
