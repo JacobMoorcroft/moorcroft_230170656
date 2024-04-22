@@ -1,7 +1,6 @@
 ---
 title: "PSY6422 Data Management and Visualisation"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
     fig_width: 7
