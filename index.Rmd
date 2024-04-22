@@ -2,7 +2,6 @@
 title: "PSY6422 Data Management and Visualisation"
 output:
   html_document:
-    theme: journal
     df_print: paged
     fig_width: 7
     fig_height: 6.37
