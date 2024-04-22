@@ -2,7 +2,17 @@
 title: "PSY6422 Data Management and Visualisation"
 output:
   html_document:
+    theme: journal
     df_print: paged
+    fig_width: 7
+    fig_height: 6.37
+    fig_caption: true
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+  pdf_document:
+    df_print: default
     fig_width: 7
     fig_height: 6.37
     fig_caption: true
@@ -22,6 +32,7 @@ This project is focussed on visualising the increase in woodland within the Unit
 The “Woodland area, UK, 1998 to 2023” ODS file contained 5 sheets of actual data, though was also supplemented with cover, content and notes pages. In tandem, the pages containing data were annotated with further notes clarifying the origin of the data and different commissions involved in gathering it. The pages containing data split woodland area based on whether it was coniferous or deciduous, private or public sector, and reported total estimated woodland per country and in the United Kingdom as a whole.
 
 ```{r, message=FALSE, warning=FALSE, echo=TRUE}
+
 ## NECESSARY PACKAGES:
 
 library(here)
@@ -29,6 +40,10 @@ library(readODS)
 library(tidyverse)
 library(cowplot)
 library(magick)
+
+## Should packages need to be installed, remove '#' and run these two lines first:
+#libraries<-c("tidyverse", "cowplot", "magick", "readODS", "here")
+#install.packages(libraries, repos="http://cran.rstudio.com")
 
 ## DATA PREPARATION:
 # Extraction of raw data from ODS file
@@ -92,7 +107,9 @@ country_names<-c("England", "Wales", "Scotland", "Northern_Ireland") # corrects 
 
 # Calculation of proportional change in woodland area per country
 
-percentage_results<-data.frame(country=character(),percentage_increase=numeric(),stringsAsFactors=FALSE) # creates an empty dataframe
+percentage_results<-data.frame(country=character(),percentage_increase=numeric(),stringsAsFactors=FALSE) 
+# creates an empty dataframe
+
 for(country in country_names){
   min_v<-min(woodland_area[[country]])
   max_v<-max(woodland_area[[country]])
@@ -177,7 +194,6 @@ FinalPlot<-ggdraw(FinalPlot)+
 FinalPlot
 ```
 
-### Saving the Plot
 
 ```{r, message=FALSE, echo=TRUE}
 ## SAVES THE PLOT
